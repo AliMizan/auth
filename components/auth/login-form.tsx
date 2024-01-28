@@ -19,14 +19,14 @@ import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
-import { startTransition, useState, useTransition } from "react";
+import {  useState, useTransition } from "react";
 
 
 const LoginForm = () => {
   const [error,setError] = useState<string | undefined>("");
   const [success,setSuccess] = useState<string | undefined>("");
 
-  const [isPending,setIsPending] = useTransition();
+  const [isPending,startTransition] = useTransition();
 
 
   const form  = useForm<z.infer<typeof LoginSchema>>({
@@ -42,8 +42,9 @@ const LoginForm = () => {
     setSuccess("");
     startTransition(() => {
       login(values).then((data) => {
-        setError(data.error);
-        setSuccess(data.success)
+        setError(data?.error);
+        const isSuccess = data?.error ? "" : "success";
+        setSuccess(isSuccess);
       })
     })
   }
@@ -61,7 +62,7 @@ const LoginForm = () => {
             control={form.control} 
             name="email"
             render={({field}) => (
-              <FormItem>``
+              <FormItem>
                 <FormLabel>
                   Email
                 </FormLabel>

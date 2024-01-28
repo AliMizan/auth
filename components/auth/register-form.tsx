@@ -18,15 +18,17 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
-import { startTransition, useState, useTransition } from "react";
+import {  useState, useTransition } from "react";
 import { register } from "@/actions/register";
+import { useRouter } from "next/navigation";
 
 
 const RegisterForm = () => {
+  const router = useRouter()
   const [error,setError] = useState<string | undefined>("");
   const [success,setSuccess] = useState<string | undefined>("");
 
-  const [isPending,setIsPending] = useTransition();
+  const [isPending,startTransition] = useTransition();
 
 
   const form  = useForm<z.infer<typeof RegisterSchema>>({
@@ -48,6 +50,8 @@ const RegisterForm = () => {
         setSuccess(data.success)
       })
     })
+    router.push("/auth/login")
+
   }   
 
   return (
