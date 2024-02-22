@@ -14,9 +14,7 @@ const Social = () => {
   }
   return (
     <div className="flex items-center w-full gap-x-2" >
-        <Button onClick={() => onClick("google")} size="lg"  className="w-full" variant="outline" >
-            <FcGoogle className="h-5 w-5" />
-        </Button>
+        
         <Button onClick={() => onClick("github")} size="lg"  className="w-full" variant="outline" >
             <FaGithub className="h-5 w-5" />
         </Button>

@@ -1,5 +1,8 @@
 "use client"
 
+import { ToastAction } from "@/components/ui/toast"
+import { useToast } from "@/components/ui/use-toast"
+
 import { CardWrapper } from "./card-wrapper"
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -24,6 +27,7 @@ import { useRouter } from "next/navigation";
 
 
 const RegisterForm = () => {
+  const { toast } = useToast();
   const router = useRouter()
   const [error,setError] = useState<string | undefined>("");
   const [success,setSuccess] = useState<string | undefined>("");
@@ -45,12 +49,21 @@ const RegisterForm = () => {
     setSuccess("");
     startTransition(() => {
       register(values).then((data) => {
-
         setError(data.error);
-        setSuccess(data.success)
+        setSuccess(data.success);
+        if(data.existingUser === null){
+          toast({
+            variant:"default",
+            title: "Redirecting To Login Page",
+            
+            
+          })
+
+          setTimeout(() => router.push("/auth/login"),5000)
+        }
       })
     })
-    router.push("/auth/login")
+    
 
   }   
 

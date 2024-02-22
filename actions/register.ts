@@ -24,6 +24,7 @@ export const register = async (values:z.infer<typeof RegisterSchema>) => {
       const existingUser = await getUserByEmail(email);
 
       if(existingUser){
+        
         return { error: "Email already used"}
       }
 
@@ -36,5 +37,8 @@ export const register = async (values:z.infer<typeof RegisterSchema>) => {
       });
 
 
-      return {success:"Email sent"}
+      return (
+        { existingUser,
+          success:"Accont Created           Redirecting to Login Page"}
+        )
 }
